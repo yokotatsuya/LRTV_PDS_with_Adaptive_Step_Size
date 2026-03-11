@@ -17,27 +17,27 @@ This framework is effective for image and tensor completion and denoising.
 
 ---
 
-## Optimization Problem (with Box Constraint)
+## Optimization Problem
 
 We solve the following convex optimization problem:
 
 $$
 \begin{aligned}
-\min_{X} \quad & \alpha R_{\mathrm{rank}}(X)+ (1-\alpha) \mathrm{TV}(X) \\\\
-\text{s.t.} \quad & \lVert P_{\Omega}(X - T) \lVert_p^p \le \varepsilon, \\\\
+\min_{X} \quad & \alpha f_{\mathrm{TV}}(X)+ (1-\alpha) f_{\mathrm{LR}}(X) \\\\
+\text{s.t.} \quad & \lVert P_{\Omega}(T - X) \lVert_p^p \le \delta, \\\\
 & v_{\min} \leq X \leq v_{\max} .
 \end{aligned}
 $$
 
 where
 
-- $R_{\mathrm{rank}}(X)$ is a low-rank promoting regularizer
+- $f_{\mathrm{TV}}(X)$ is is total variation,
+- $f_{\mathrm{LR}}(X)$ is a low-rank promoting regularizer
   (e.g., tensor nuclear norm),
-- $\mathrm{TV}(X)$ is total variation,
 - $\alpha \in [0,1]$ can be tuned manually,
 - $P_{\Omega}$ is the observation operator (for removing missing entries),
 - $T$ is the observed tensor,
-- $\varepsilon$ controls the noise level,
+- $\delta$ controls the noise level,
 - $p=1$ or $p=2$ can be selected,
 - $v_{\min}$ and $v_{\max}$ are minimum and maximum values for all pixels.
 
